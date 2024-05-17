@@ -8,6 +8,9 @@ On single firing mode if both torpedo stores are filled and we fire twice then f
 On all firing mode if the primary torpedo store is empty but the secondary one is filled then there is no firing from the primary but from the secondary torpedo store all torpedos should be fired
 # Test5:
 On all firing mode if the secondary torpedo store is empty but the primary one is filled then there is no firing from the secondary but from the primary torpedo store all torpedos should be fired
-
 # Test6 based on code
 Fire laser method should return false
+# Test7 
+On second single shot if secondary is empty the primary should be fired once more
+# Test8
+On second single shot if secondary is empty and the primary got emptied on the first shot nop shots should be fired

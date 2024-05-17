@@ -88,7 +88,33 @@ public class GT4500Test {
 
     verify(primaryTorpedoStoreMock).fire(1);
     verify(secondaryTorpedoStoreMock).fire(1);
+  }
+  @Test
+  public void fireTorpedo_Single_WithEmptySecondaryTorpedoStores_FireTwice() {
+    Mockito.when(primaryTorpedoStoreMock.isEmpty()).thenReturn(false);
+    Mockito.when(secondaryTorpedoStoreMock.isEmpty()).thenReturn(true);
+    Mockito.when(secondaryTorpedoStoreMock.fire(1)).thenReturn(true);
+    Mockito.when(primaryTorpedoStoreMock.fire(1)).thenReturn(true);
 
+    ship.fireTorpedo(FiringMode.SINGLE);
+    ship.fireTorpedo(FiringMode.SINGLE);
+
+    verify(primaryTorpedoStoreMock, times(2)).fire(1);
+    verify(secondaryTorpedoStoreMock, never()).fire(anyInt());
+  }
+  @Test
+  public void fireTorpedo_Single_WithOnePrimaryTorpedoStores_FireTwice() {
+    Mockito.when(primaryTorpedoStoreMock.isEmpty()).thenReturn(false);
+    Mockito.when(secondaryTorpedoStoreMock.isEmpty()).thenReturn(true);
+    Mockito.when(secondaryTorpedoStoreMock.fire(1)).thenReturn(true);
+    Mockito.when(primaryTorpedoStoreMock.fire(1)).thenReturn(true);
+
+    ship.fireTorpedo(FiringMode.SINGLE);
+    Mockito.when(primaryTorpedoStoreMock.isEmpty()).thenReturn(true);
+    ship.fireTorpedo(FiringMode.SINGLE);
+
+    verify(primaryTorpedoStoreMock, times(1)).fire(1);
+    verify(secondaryTorpedoStoreMock, never()).fire(anyInt());
   }
 
   @Test
@@ -126,5 +152,10 @@ public class GT4500Test {
   @Test
   public void fire_laser_should_return_false() {
     assertEquals(false, ship.fireLaser(FiringMode.SINGLE));
+  }
+
+  @Test
+  public void firingMode_null_should_return_false() {
+    assertEquals(false, ship.fireTorpedo(FiringMode.ALTERNATING));
   }
 }
